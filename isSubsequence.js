@@ -7,29 +7,46 @@
 //  without their order changing.
 // ==========================================================
 
-function isSubsequence(arg1, arg2) {
-  // good luck. Add any arguments you deem necessary.
-  if (typeof arg1 !== "string" || typeof arg2 !== "string") return false;
-  const memo = {};
-  for (let i = 0; i < arg1.length; i++) {
-    const element = arg1[i];
-    if (memo[element]) memo[element] = [memo[element][0], memo[element][1] + 1];
-    else memo[element] = [i + 1, 1];
+// function isSubsequence(arg1, arg2) {
+//   // good luck. Add any arguments you deem necessary.
+//   if (typeof arg1 !== "string" || typeof arg2 !== "string") return false;
+//   const memo = {};
+//   for (let i = 0; i < arg1.length; i++) {
+//     const element = arg1[i];
+//     if (memo[element]) memo[element] = [memo[element][0], memo[element][1] + 1];
+//     else memo[element] = [i + 1, 1];
+//   }
+
+//   let pos = 0;
+//   for (let j = 0; j < arg2.length; j++) {
+//     pos++;
+//     const element = arg2[j];
+//     if (memo[element]) {
+//       if (memo[element][0] > pos) return false;
+//       if (memo[element][1] !== 1)
+//         memo[element] = [memo[element][0] + 1, memo[element][1] - 1];
+//       else delete memo[element];
+//     }
+
+//     if (JSON.stringify(memo) === "{}") return true;
+//   }
+// }
+
+function isSubsequence(str1, str2) {
+  var i = 0;
+  var j = 0;
+
+  if (!str1) return true;
+  while (j < str2.length) {
+    console.log(i, j, str2[j], str2[i]);
+    if (str2[j] === str1[i]) i++;
+    if (i === str1.length) return true;
+    j++;
   }
-  let pos = 0;
-  for (let j = 0; j < arg2.length; j++) {
-    pos++;
-    const element = arg2[j];
-    if (memo[element] && memo[element][0] > pos) return false;
-    if (memo[element]) {
-      if (memo[element][1] !== 1)
-        memo[element] = [memo[element][0] + 1, memo[element][1] - 1];
-      else delete memo[element];
-    }
-    if (JSON.stringify(memo) === "{}") return true;
-  }
+
+  return false;
 }
-console.log(isSubsequence("hello", "hello wor ld")); // true
+console.log(isSubsequence("hello wd", "hello wor ld")); // true
 // console.log(isSubsequence("sing", "sting")); // true
 // console.log(isSubsequence("abc", "abracadabra")); // true
 // console.log(isSubsequence("abc", "acb")); // false
