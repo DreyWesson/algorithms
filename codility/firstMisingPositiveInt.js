@@ -2,11 +2,15 @@ function solution(arr) {
   // Question: Loop through and return the first missing positive integer
   if (typeof arr === "string" || !Array.isArray(arr)) return "Invalid input";
 
-  let memo = 0;
   arr = arr.sort((a, b) => a - b);
 
+  let memo = 0;
+  const cache = {};
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] >= 0) {
+    const element = arr[i];
+    if (element in cache) return 0;
+    cache[element] = true;
+    if (element >= 0) {
       const diff = arr[i] - memo;
       if (diff > 1) return memo + 1;
       if (i === arr.length - 1) return arr[i] + 1;

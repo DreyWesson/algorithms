@@ -12,3 +12,4 @@ function rotateArr(arr, k) {
 
 console.log(rotateArr([1, 2, 3, 4, 5, 6, 7], 3));
 console.log(rotateArr([-1, -100, 3, 99], 2));
+console.log(rotateArr([3, 8, 9, 7, 6], 2));

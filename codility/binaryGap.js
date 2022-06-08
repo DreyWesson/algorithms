@@ -22,6 +22,7 @@ function binaryGap(num, target) {
   const convertToBinary = (num) => {
     return num.toString(2);
   };
+  console.log(convertToBinary(num));
   const binary = convertToBinary(num); //110100
   //   const binary = "10000010001";
   const memo = {};
@@ -37,16 +38,23 @@ function binaryGap(num, target) {
       if (memo[binary[head]] === memo[target]) {
         prevPosition = memo[binary[head]][0];
         currentMax = memo[binary[head]][1];
-        diff = head - prevPosition;
+        diff = head - (prevPosition + 1);
         newMax = Math.max(diff, currentMax);
         memo[binary[head]][0] = head + 1;
         memo[binary[head]][1] = newMax;
       }
     }
+    console.log(memo);
     if (binary.length - 1 === head) {
       console.log(memo[target][1]);
-      return memo[target][1];
+      return +memo[target][1];
     }
   }
 }
-binaryGap(52, "0");
+// binaryGap(529, "1");
+binaryGap(52, "1");
+// binaryGap(9, "1");
+// binaryGap(1041, "1");
+
+// binaryGap(20, "2");
+// binaryGap(15, "3");
