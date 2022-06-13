@@ -4,16 +4,13 @@ function selectionSort(array) {
   const length = array.length;
   for (let i = 0; i < length; i++) {
     // set current index as minimum
-    let min = i;
+    let lowest = i;
     let temp = array[i];
     for (let j = i + 1; j < length; j++) {
-      if (array[j] < array[min]) {
-        //update minimum if current is lower that what we had previously
-        min = j;
-      }
+      if (array[j] < array[lowest]) lowest = j;
     }
-    array[i] = array[min];
-    array[min] = temp;
+    array[i] = array[lowest];
+    array[lowest] = temp;
   }
   return array;
 }

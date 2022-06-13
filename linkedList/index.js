@@ -7,6 +7,25 @@ class LinkedList {
     this.tail = this.head;
     this.length = 1;
   }
+  printList() {
+    const array = [];
+    let currentNode = this.head;
+    while (currentNode !== null) {
+      array.push(currentNode.value);
+      currentNode = currentNode.next;
+    }
+    return array;
+  }
+  traverseToIndex(index) {
+    //Check parameters
+    let counter = 0;
+    let currentNode = this.head;
+    while (counter !== index) {
+      currentNode = currentNode.next;
+      counter++;
+    }
+    return currentNode;
+  }
   append(value) {
     const newNode = {
       value: value,
@@ -28,15 +47,7 @@ class LinkedList {
     this.length++;
     return this;
   }
-  printList() {
-    const array = [];
-    let currentNode = this.head;
-    while (currentNode !== null) {
-      array.push(currentNode.value);
-      currentNode = currentNode.next;
-    }
-    return array;
-  }
+
   insert(index, value) {
     //Check for proper parameters;
     if (index >= this.length) {
@@ -53,18 +64,10 @@ class LinkedList {
     leader.next = newNode;
     newNode.next = holdingPointer;
     this.length++;
+    console.log(this.printList());
     return this.printList();
   }
-  traverseToIndex(index) {
-    //Check parameters
-    let counter = 0;
-    let currentNode = this.head;
-    while (counter !== index) {
-      currentNode = currentNode.next;
-      counter++;
-    }
-    return currentNode;
-  }
+
   remove(index) {
     // Check Parameters
     const leader = this.traverseToIndex(index - 1);
@@ -74,45 +77,29 @@ class LinkedList {
     return this.printList();
   }
   reverse() {
-    let counter = 0;
+    if (!this.head.next) return this.head;
     let currentNode = this.head;
-    let prev;
-    let rest;
-    while (counter < this.length) {
-      if (counter === 0) {
-        prev = null;
-        console.log("::::", currentNode);
-        rest = currentNode.next;
-        currentNode.next = prev;
-        console.log(":", currentNode);
-
-        this.tail = currentNode;
-      } else {
-        // console.log("::::", currentNode);
-
-        prev = currentNode.next;
-        // console.log(":", prev);
-        currentNode = currentNode.next;
-        currentNode.next = prev;
-        this.head = currentNode;
-      }
-
-      // console.log("::::", currentNode);
-
-      counter++;
+    this.head = this.tail;
+    this.tail = currentNode;
+    let next;
+    let prev = null;
+    for (let i = 0; i < this.length; i++) {
+      next = currentNode.next;
+      currentNode.next = prev;
+      prev = currentNode;
+      currentNode = next;
     }
-    return currentNode;
+    console.log(this.printList());
 
-    // while i save the rest of the value not to lose it
-    // then i change the next current value in the loop to the saved value
+    return this;
   }
 }
 
-let myLinkedList = new Stack(10);
-myStack.append(5);
-myStack.append(16);
-// myLinkedList.prepend(1);
+let myLinkedList = new LinkedList(10);
+myLinkedList.append(5);
+myLinkedList.append(16);
+myLinkedList.prepend(1);
 // myLinkedList.insert(2, 99);
-// myLinkedList.insert(20, 88);
+myLinkedList.insert(1, 88);
 // myLinkedList.remove(2);
-myStack.reverse();
+myLinkedList.reverse();
