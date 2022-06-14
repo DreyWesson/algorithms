@@ -79,18 +79,17 @@ class LinkedList {
   reverse() {
     if (!this.head.next) return this.head;
     let currentNode = this.head;
-    this.head = this.tail;
+    this.head = this.tail; // switch the head and tail
     this.tail = currentNode;
-    let next;
-    let prev = null;
+    let temp;
+    let previousNode = null;
     for (let i = 0; i < this.length; i++) {
-      next = currentNode.next;
-      currentNode.next = prev;
-      prev = currentNode;
-      currentNode = next;
+      temp = currentNode.next;
+      currentNode.next = previousNode;
+      previousNode = currentNode;
+      currentNode = temp;
     }
     console.log(this.printList());
-
     return this;
   }
 }
