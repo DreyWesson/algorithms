@@ -8,6 +8,7 @@ class DoublyLinkedList {
     this.tail = this.head;
     this.length = 1;
   }
+
   append(value) {
     const newNode = {
       value: value,
@@ -21,6 +22,7 @@ class DoublyLinkedList {
     this.length++;
     return this;
   }
+
   prepend(value) {
     const newNode = {
       value: value,
@@ -33,6 +35,7 @@ class DoublyLinkedList {
     this.length++;
     return this;
   }
+
   printList() {
     const array = [];
     let currentNode = this.head;
@@ -42,6 +45,7 @@ class DoublyLinkedList {
     }
     return array;
   }
+
   insert(index, value) {
     //Check for proper parameters;
     if (index >= this.length) {
@@ -63,6 +67,7 @@ class DoublyLinkedList {
     console.log(this);
     return this.printList();
   }
+
   traverseToIndex(index) {
     //Check parameters
     let counter = 0;
@@ -72,6 +77,73 @@ class DoublyLinkedList {
       counter++;
     }
     return currentNode;
+  }
+  remove(index) {
+    let unwanted;
+    if (this.length === 1) {
+      this.head = null;
+      this.tail = null;
+    }
+    if (index > this.length) {
+      return undefined;
+    } else {
+      unwanted = this.get(index);
+      const prev = unwanted.prev;
+      const trailing = unwanted.next;
+      prev.next = trailing;
+      trailing.prev = prev;
+      this.length--;
+    }
+    return unwanted;
+  }
+  get(index) {
+    if (index < 0 || index >= this.length) return null;
+    var count, current;
+    if (index <= this.length / 2) {
+      count = 0;
+      current = this.head;
+      while (count !== index) {
+        current = current.next;
+        count++;
+      }
+    } else {
+      count = this.length - 1;
+      current = this.tail;
+      while (count !== index) {
+        current = current.prev;
+        count--;
+      }
+    }
+    return current;
+  }
+  set(index, val) {
+    var foundNode = this.get(index);
+    if (foundNode != null) {
+      foundNode.val = val;
+      return true;
+    }
+    return false;
+  }
+  reverse() {
+    if (this.head == null) {
+      return undefined;
+    } else {
+      var temp = this.head;
+      var back = null;
+      // Make new tail
+      this.tail = this.head;
+      // Change node link
+      while (temp != null) {
+        // Make new upcoming node as to head
+        this.head = temp;
+        temp = temp.next;
+        // Modified current node link
+        this.head.prev = temp;
+        this.head.next = back;
+        back = this.head;
+      }
+    }
+    return this;
   }
 }
 
