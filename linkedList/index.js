@@ -77,20 +77,35 @@ class LinkedList {
     return this.printList();
   }
   reverse() {
-    if (!this.head.next) return this.head;
-    let currentNode = this.head;
-    this.head = this.tail; // switch the head and tail
-    this.tail = currentNode;
-    let temp;
-    let previousNode = null;
-    for (let i = 0; i < this.length; i++) {
-      temp = currentNode.next;
-      currentNode.next = previousNode;
-      previousNode = currentNode;
-      currentNode = temp;
+    if (this.head == null) return undefined;
+    else {
+      let currentNode = this.head;
+      let previousNode = null; // Make new tail
+      this.tail = this.head; // Change node link
+      while (currentNode !== null) {
+        this.head = currentNode; // Make new upcoming node as to head
+        currentNode = currentNode.next; // switch current node to next node
+        this.head.next = previousNode; // the next pointer should point to previous node
+        previousNode = this.head; // Change previous node to d new head or current node
+      }
+      console.log(this.printList());
+      console.log(this.head);
+      return this;
     }
-    console.log(this.printList());
-    return this;
+    // if (!this.head.next) return this.head;
+    // let currentNode = this.head;
+    // this.head = this.tail; // switch the head and tail
+    // this.tail = currentNode;
+    // let temp;
+    // let previousNode = null;
+    // for (let i = 0; i < this.length; i++) {
+    //   temp = currentNode.next;
+    //   currentNode.next = previousNode;
+    //   previousNode = currentNode;
+    //   currentNode = temp;
+    // }
+    // console.log(this.printList());
+    // return this;
   }
 }
 

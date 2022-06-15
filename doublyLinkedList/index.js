@@ -125,22 +125,17 @@ class DoublyLinkedList {
     return false;
   }
   reverse() {
-    if (this.head == null) {
-      return undefined;
-    } else {
-      var temp = this.head;
-      var back = null;
-      // Make new tail
-      this.tail = this.head;
-      // Change node link
-      while (temp != null) {
-        // Make new upcoming node as to head
-        this.head = temp;
-        temp = temp.next;
-        // Modified current node link
-        this.head.prev = temp;
-        this.head.next = back;
-        back = this.head;
+    if (this.head == null) return undefined;
+    else {
+      let currentNode = this.head;
+      let previousNode = null; // Make new tail
+      this.tail = this.head; // Change node link
+      while (currentNode != null) {
+        this.head = currentNode; // Make new upcoming node as to head
+        currentNode = currentNode.next; // switch current node to next node
+        this.head.prev = currentNode; // the prev pointer should point to current node
+        this.head.next = previousNode; // the next pointer should point to previous node
+        previousNode = this.head; // Change previous node to d new head or current node
       }
     }
     return this;
@@ -155,4 +150,4 @@ myStack.insert(2, 99);
 // myLinkedList.insert(20, 88)
 // myLinkedList.printList()
 // myLinkedList.remove(2)
-// myLinkedList.reverse()
+myLinkedList.reverse();
