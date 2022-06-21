@@ -1,8 +1,8 @@
 class Node {
   constructor(value) {
+    this.value = value;
     this.left = null;
     this.right = null;
-    this.value = value;
   }
 }
 
@@ -17,6 +17,7 @@ class BinarySearchTree {
     } else {
       let currentNode = this.root;
       while (true) {
+        if (value === currentNode.value) return undefined;
         if (value < currentNode.value) {
           //Left
           if (!currentNode.left) {
@@ -35,21 +36,75 @@ class BinarySearchTree {
       }
     }
   }
-  lookup(value) {
-    if (!this.root) {
-      return false;
-    }
+  find(value) {
+    if (!this.root) return false;
     let currentNode = this.root;
     while (currentNode) {
-      if (value < currentNode.value) {
-        currentNode = currentNode.left;
-      } else if (value > currentNode.value) {
-        currentNode = currentNode.right;
-      } else if (currentNode.value === value) {
-        return currentNode;
-      }
+      if (value < currentNode.value) currentNode = currentNode.left;
+      else if (value > currentNode.value) currentNode = currentNode.right;
+      else if (currentNode.value === value) return currentNode;
     }
     return null;
+  }
+  breadthFirstSearch() {
+    var node = this.root,
+      data = [],
+      queue = [];
+    queue.push(node);
+
+    while (queue.length) {
+      node = queue.shift();
+      data.push(node.value);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    return data;
+  }
+
+  contains(value) {
+    if (this.root === null) return false;
+    var current = this.root,
+      found = false;
+    while (current && !found) {
+      if (value < current.value) {
+        current = current.left;
+      } else if (value > current.value) {
+        current = current.right;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+  DFSPreOrder() {
+    var data = [];
+    function traverse(node) {
+      data.push(node.value);
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+    }
+    traverse(this.root);
+    return data;
+  }
+  DFSPostOrder() {
+    var data = [];
+    function traverse(node) {
+      if (node.left) traverse(node.left);
+      if (node.right) traverse(node.right);
+      data.push(node.value);
+    }
+    traverse(this.root);
+    return data;
+  }
+  DFSInOrder() {
+    var data = [];
+    function traverse(node) {
+      if (node.left) traverse(node.left);
+      data.push(node.value);
+      if (node.right) traverse(node.right);
+    }
+    traverse(this.root);
+    return data;
   }
   remove(value) {
     if (!this.root) {

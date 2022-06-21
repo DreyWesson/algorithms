@@ -75,7 +75,7 @@ tree.insert(20);
 tree.insert(170);
 tree.insert(15);
 tree.insert(1);
-tree.lookup(9);
+tree.find(9);
 // tree.lookup(1);
 // tree.lookup(15);
 // tree.lookup(0);
