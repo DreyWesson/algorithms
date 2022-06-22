@@ -26,6 +26,7 @@ class PriorityQueue {
       this.values[0] = end;
       this.sinkDown();
     }
+    console.log(min);
     return min;
   }
   sinkDown() {
@@ -70,7 +71,12 @@ class Node {
 
 let ER = new PriorityQueue();
 ER.enqueue("common cold", 5);
-ER.enqueue("gunshot wound", 1);
+ER.enqueue("glass in foot", 3);
 ER.enqueue("high fever", 4);
 ER.enqueue("broken arm", 2);
-ER.enqueue("glass in foot", 3);
+ER.enqueue("gunshot wound", 1);
+ER.dequeue();
+ER.dequeue();
+ER.dequeue();
+ER.dequeue();
+ER.dequeue();
