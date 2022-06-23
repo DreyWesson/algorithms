@@ -9,33 +9,17 @@ function fibonacciIterativeA(n) {
   for (let i = 2; i < n + 1; i++) {
     arr.push(arr[i - 2] + arr[i - 1]);
   }
+  console.log("tut: ", arr[n]);
   return arr[n];
 }
-fibonacciIterativeA(3);
+fibonacciIterativeA(100);
 
-function fibonacciRecursive(n) {
-  return n < 2 ? n : fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+function fibonacciRecursive(n, memo = []) {
+  if (memo[n] !== undefined) return memo[n];
+  if (n <= 2) return 1;
+  let result =
+    fibonacciRecursive(n - 1, memo) + fibonacciRecursive(n - 2, memo);
+  memo[n] = result;
+  return result;
 }
-
-fibonacciRecursive(6);
-//
-//
-// MY VERSION
-//
-//
-function fibonacciIterative(n) {
-  //code here;
-  const fibonacci = [0, 1];
-  const array = [0, 1];
-  if (n < 2) return n;
-  for (let i = 1; i < n; i++) {
-    let newVal = array[0] + array[1];
-    array[0] = array[1];
-    array[1] = newVal;
-    fibonacci.push(newVal);
-  }
-  //   console.log(fibonacci);
-  console.log(fibonacci[n]);
-  return fibonacci;
-}
-fibonacciIterative(13);
+console.log(fibonacciRecursive(100));
