@@ -20,19 +20,16 @@ function longest_substring_with_k_distinct(str, k) {
   let tail = 0,
     maxLength = 0,
     memo = {};
-  // in the following loop we'll try to extend the range [window_start, window_end]
   for (let head = 0; head < str.length; head++) {
     const headChar = str[head];
     if (!memo[headChar]) memo[headChar] = 1;
     else memo[headChar]++;
-    // shrink the sliding window, until we are left with 'k' distinct characters in the char_frequency
     while (Object.keys(memo).length > k) {
       const tailChar = str[tail];
       memo[tailChar]--;
       if (memo[tailChar] === 0) delete memo[tailChar];
-      tail++; // shrink the window
+      tail++;
     }
-    // remember the maximum length so far
     maxLength = Math.max(maxLength, head - tail + 1);
   }
 
