@@ -1,4 +1,4 @@
-import { isAlphaNumericChar } from "./utils/isAlphanumericChar.js";
+import { isAlphaNumericChar } from "../utils/isAlphanumericChar.js";
 function numEachCharInStr(params) {
   const memo = {};
   // EDGE CASES

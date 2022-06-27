@@ -7,23 +7,20 @@
 // to the function. If there isn't one, return 0 instead.
 // ==========================================================
 
-function findLongestSubstring(str, s) {
-  let maxLength = 0;
-  let tmp = "";
-  let initPos = 0;
+function minSubArrayLen(str, s) {
+  let minLength = Infinity,
+    sum = 0,
+    tail = 0;
 
-  for (let head = 0; head < str.length; head++) {
-    const element = str.charAt(head);
-    initPos = tmp.indexOf(element);
-    tmp += element;
-    if (initPos !== -1) tmp = tmp.substr(initPos + 1);
-    maxLength = Math.max(maxLength, tmp.length);
+  for (let head = 0; head < arr.length; head++) {
+    sum += arr[head];
+    while (sum >= s) {
+      minLength = Math.min(minLength, head - tail + 1);
+      sum -= arr[tail];
+      tail += 1;
+    }
   }
-  return maxLength;
+  if (minLength === Infinity) return 0;
+  return minLength;
 }
-findLongestSubstring("rithmschool");
-// findLongestSubstring("thisisawesome");
-// findLongestSubstring("thecatinthehat");
-// findLongestSubstring("bbbbb");
-// findLongestSubstring("longestsubstring");
-// findLongestSubstring("thisishowwedoit");
+minSubArrayLen([]);
