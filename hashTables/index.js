@@ -14,9 +14,8 @@ class HashTable {
 
   set(key, value) {
     let address = this._hash(key);
-    if (!this.data[address]) {
-      this.data[address] = [];
-    }
+    console.log(address);
+    if (!this.data[address]) this.data[address] = [];
     this.data[address].push([key, value]);
     return this.data;
   }
@@ -27,6 +26,7 @@ class HashTable {
     if (currentBucket) {
       for (let i = 0; i < currentBucket.length; i++) {
         if (currentBucket[i][0] === key) {
+          console.log(currentBucket[i][1]);
           return currentBucket[i][1];
         }
       }
@@ -42,6 +42,7 @@ class HashTable {
         keysArray.push(this.data[i][0][0]);
       }
     }
+    console.log(keysArray);
     return keysArray;
   }
 

@@ -16,11 +16,11 @@ function commonItems(arr1, arr2) {
   arr2.forEach((element2) => memo[element2] && console.log(element2));
 }
 
-// commonItems(arr1, arr2);
-// commonItems(arr1, arr4);
+commonItems(arr1, arr2);
+commonItems(arr1, arr4);
 
 function commonItm(arr1, arr2) {
   return arr1.some((element) => arr2.includes(element));
 }
-console.log(commonItm(arr1, arr2));
-console.log(commonItm(arr1, arr4));
+// console.log(commonItm(arr1, arr2));
+// console.log(commonItm(arr1, arr4));

@@ -8,7 +8,6 @@ class DoublyLinkedList {
     this.tail = this.head;
     this.length = 1;
   }
-
   append(value) {
     const newNode = {
       value: value,
@@ -22,7 +21,6 @@ class DoublyLinkedList {
     this.length++;
     return this;
   }
-
   prepend(value) {
     const newNode = {
       value: value,
@@ -35,7 +33,6 @@ class DoublyLinkedList {
     this.length++;
     return this;
   }
-
   printList() {
     const array = [];
     let currentNode = this.head;
@@ -45,7 +42,6 @@ class DoublyLinkedList {
     }
     return array;
   }
-
   insert(index, value) {
     //Check for proper parameters;
     if (index >= this.length) {
@@ -67,7 +63,6 @@ class DoublyLinkedList {
     console.log(this);
     return this.printList();
   }
-
   traverseToIndex(index) {
     //Check parameters
     let counter = 0;

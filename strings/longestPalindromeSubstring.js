@@ -9,9 +9,7 @@ function longestPalindromeSubstr(str) {
     const strlen = str.length;
     let result = "";
     if (str.charAt(0) !== str.charAt(strlen - 1)) return false;
-    for (let i = strlen - 1; i >= 0; i--) {
-      result += str.charAt(i);
-    }
+    for (let i = strlen - 1; i >= 0; i--) result += str.charAt(i);
     return result === str ? true : false;
   };
 
@@ -66,14 +64,14 @@ function longestPalindromeSubstr(str) {
 }
 // longestPalindromeSubstr("lol");
 // longestPalindromeSubstr("million");
-console.time();
-longestPalindromeSubstr("abracadabra");
-longestPalindromeSubstr("noon");
-longestPalindromeSubstr("a level b");
+// console.time();
+// longestPalindromeSubstr("abracadabra");
+// longestPalindromeSubstr("noon");
+// longestPalindromeSubstr("a level b");
 // longestPalindromeSubstr(
 //   "HYTBCABADEFGHABCDEDCBAGHTFYW12345678987654321ZWETYGDE"
 // );
-console.timeEnd();
+// console.timeEnd();
 
 function longestPalSubstr(str) {
   let n = str.length;
@@ -102,6 +100,6 @@ function longestPalSubstr(str) {
   return maxLength;
 }
 // console.time();
-// longestPalSubstr("abracadabra");
-// longestPalSubstr("HYTBCABADEFGHABCDEDCBAGHTFYW12345678987654321ZWETYGDE");
+longestPalSubstr("abracadabra");
+longestPalSubstr("HYTBCABADEFGHABCDEDCBAGHTFYW12345678987654321ZWETYGDE");
 // console.timeEnd();

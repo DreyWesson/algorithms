@@ -8,7 +8,7 @@ class MyArray {
   }
 
   push(item) {
-    this.data[this.length] = item;
+    this.data[this.length] = item; // this.length is the object key & helps the ordering
     this.length++;
     return this.data;
   }
@@ -37,7 +37,7 @@ const myArray = new MyArray();
 myArray.push("hi");
 myArray.push("ghost");
 console.log(myArray.get(0));
-console.log(myArray.p());
+// console.log(myArray.p());
 // myArray.push("you");
 // myArray.push("!");
 // myArray.pop();

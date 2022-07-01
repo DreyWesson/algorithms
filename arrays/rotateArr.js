@@ -2,7 +2,7 @@
 function rotateArr(arr, k) {
   const memo = [];
   const tmp = [];
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < k; i++) {
     if (i < arr.length - k) {
       memo.push(arr[i]);
     } else tmp.push(arr[i]);

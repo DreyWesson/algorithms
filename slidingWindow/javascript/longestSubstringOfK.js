@@ -36,6 +36,6 @@ function longest_substring_with_k_distinct(str, k) {
   return maxLength;
 }
 
-console.log(longest_substring_with_k_distinct("araaci", 2));
-console.log(longest_substring_with_k_distinct("araaci", 1));
+// console.log(longest_substring_with_k_distinct("araaci", 2));
+// console.log(longest_substring_with_k_distinct("araaci", 1));
 console.log(longest_substring_with_k_distinct("cbbebi", 3));
