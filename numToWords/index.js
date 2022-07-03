@@ -22,7 +22,6 @@ function numToWords(val) {
     "nineteen",
     "twenty",
   ];
-
   const hundreds = [
     "zero",
     "ten",
@@ -36,19 +35,17 @@ function numToWords(val) {
     "ninety",
     "hundred",
   ];
-  let hundredWords = "";
-  let commas = "";
-  const commaCounter = ["", "thousand", "million", "trillion"];
-
-  let result = "";
-
-  let hundredsCounter = 0;
+  let hundredWords = "",
+    comma = "",
+    result = "",
+    commasCounter = 0,
+    counter = 0;
+  const commas = ["", "thousand", "million", "trillion"];
 
   function calcTens(value) {
     let hundredWords = "";
     value = value.length > 2 ? `0${value.substr(1)}` : `0${value}`;
     const temp = value.substr(1);
-
     const char2 = value.charAt(1),
       char3 = value.charAt(2);
     if (parseInt(temp) < 19) hundredWords += `${tens[temp]}`;
@@ -56,51 +53,36 @@ function numToWords(val) {
     return hundredWords;
   }
 
-  let counter = 0;
-
   if (val.length === 1) return tens[val];
   if (val.length === 2) return calcTens(val);
-
+  function printResult(newInput, commaType, prevResult) {
+    return `${newInput} ${commaType}${commaType ? "," : ""} ${prevResult}`;
+  }
   for (let i = val.length - 1; i >= 0; i--) {
     counter++;
-    const element = val.charAt(i);
-    commas = element + commas;
+    comma = val.charAt(i) + comma;
     if (i === 0) {
-      if (commas.length === 1)
-        return `${tens[commas]} ${commaCounter[hundredsCounter]},  ${result}`;
-      if (commas.length === 2)
-        return `${calcTens(commas)} ${
-          commaCounter[hundredsCounter]
-        },  ${result}`;
+      if (comma.length === 1)
+        return printResult(tens[comma], commas[commasCounter], result);
+      if (comma.length === 2)
+        return printResult(calcTens(comma), commas[commasCounter], result);
     }
-
     if (counter === 3) {
-      const char = commas.charAt(0),
-        char2 = commas.charAt(1),
-        char3 = commas.charAt(2);
-
-      if (parseInt(char) !== 0) {
-        hundredWords = tens[char] + " hundred and";
-      }
-
-      if (parseInt(char2) === 0 && parseInt(char3) !== 0) {
+      const char = comma.charAt(0),
+        char2 = comma.charAt(1),
+        char3 = comma.charAt(2);
+      if (parseInt(char) !== 0) hundredWords = tens[char] + " hundred and";
+      if (parseInt(char2) === 0 && parseInt(char3) !== 0)
         hundredWords += ` ${tens[char3]}`;
-      } else if (parseInt(char2)) {
-        hundredWords += ` ${calcTens(commas)}`;
-      }
-
-      result =
-        `${hundredWords} ${commaCounter[hundredsCounter]}${
-          hundredsCounter > 0 ? ", " : ""
-        }` + result;
-
+      else if (parseInt(char2)) hundredWords += ` ${calcTens(comma)}`;
+      result = printResult(hundredWords, commas[commasCounter], result);
+      //   reset variables after every 3 figures
       counter = 0;
-      commas = "";
+      comma = "";
       hundredWords = "";
-      hundredsCounter++;
+      commasCounter++;
     }
   }
   return result;
 }
-
-console.log(numToWords("1112111"));
+console.log(numToWords("1111111"));
