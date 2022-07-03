@@ -23,9 +23,7 @@ function validAnagram(str1, str2) {
     if (memo[str1[j]]) memo[str1[j]] = memo[str1[j]] - 1;
     if (memo[str1[j]] === 0) delete memo[str1[j]];
   }
-
-  if (JSON.stringify(memo) === "{}") return true;
-  return false;
+  return JSON.stringify(memo) === "{}" ? console.log(true) : console.log(false);
 }
 validAnagram("", ""); // true
 validAnagram("aaz", "zza"); // false
