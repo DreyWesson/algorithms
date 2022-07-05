@@ -10,6 +10,7 @@ function bubbleSort(array) {
       }
     }
   }
+  return array;
 }
 
 bubbleSort(numbers);

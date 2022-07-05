@@ -1,16 +1,9 @@
-function findLongestSubstrK(str, k) {
-  const memo = {};
-  let newString = "";
-
-  for (let i = 0; i < str.length; i++) {
-    const element = str.charAt(i);
-    newString += element;
-    if (!memo[element]) memo[element] = 1;
-    else memo[element]++;
-  }
-  console.log(Object.keys(memo).length);
-  while (Object.keys(memo).length > k) {
-    newString = newString.substr();
-  }
+function Human() {
+  this.talk = (names) => console.log(`${names || "Humans"} can talk`);
 }
-findLongestSubstrK("araaci", 2);
+const human = new Human();
+human.talk();
+Human.prototype.breathe = () => {
+  console.log("I fucking breathe...");
+};
+human.breathe();
