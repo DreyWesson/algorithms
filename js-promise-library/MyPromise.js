@@ -19,7 +19,7 @@ class MyPromise {
     try {
       cb(this.#onSuccessBind, this.#onFailBind); // since promise gets a CB with 2 parameters - (resolve,reject)
     } catch (e) {
-      this.#onFail(e);
+      this.#onFailBind(e);
     }
   }
   // STEP 6
@@ -28,8 +28,7 @@ class MyPromise {
     if (this.#state === STATE.FULFILLED) {
       this.#thenCbs.forEach((callback) => callback(this.#value)); // pass in the #value we just saved #onSuccess
       this.#thenCbs = []; // clear the list off of cb that has been fulfilled
-    }
-    if (this.#state === STATE.REJECTED) {
+    } else if (this.#state === STATE.REJECTED) {
       // then run the next CB on the catch list[]
       this.#catchCbs.forEach((callback) => callback(this.#value)); // pass in the #value we just saved #onFail
       this.#catchCbs = []; // clear the list off of cb that has been fulfilled
@@ -119,17 +118,25 @@ class MyPromise {
     return new Promise((resolve, reject) => reject(value));
   }
 
+  static race(promises) {
+    // returns the 1st promise to resolve/reject
+    return new MyPromise((resolve, reject) =>
+      promises.forEach((promise) => promise.then(resolve).catch(reject))
+    );
+  }
+  // receives arr of promises and returns arr of resolved result
+  // Promise.all([promise1, promise2, promise3]).then((val[]) => val[]).catch();
   static all(promises) {
-    const results = [];
-    let completedPromises = 0;
+    const results = []; // takes a list of resolved values
+    let numOfCompletedPromises = 0;
     return new MyPromise((resolve, reject) => {
+      // loop thru promises
       for (let i = 0; i < promises.length; i++) {
-        const promise = promises[i];
-        promise
+        promises[i]
           .then((value) => {
-            completedPromises++;
+            numOfCompletedPromises++;
             results[i] = value;
-            if (completedPromises === promises.length) resolve(results);
+            if (numOfCompletedPromises === promises.length) resolve(results);
           })
           .catch(reject);
       }
@@ -137,12 +144,12 @@ class MyPromise {
   }
 
   static allSettled(promises) {
+    // allSettled should return {"status, resolved value/failure reason"}
     const results = [];
     let completedPromises = 0;
     return new MyPromise((resolve) => {
       for (let i = 0; i < promises.length; i++) {
-        const promise = promises[i];
-        promise
+        promises[i]
           .then((value) => (results[i] = { status: STATE.FULFILLED, value }))
           .catch((reason) => (results[i] = { status: STATE.REJECTED, reason }))
           .finally(() => {
@@ -153,19 +160,14 @@ class MyPromise {
     });
   }
 
-  static race(promises) {
-    return new MyPromise((resolve, reject) =>
-      promises.forEach((promise) => promise.then(resolve).catch(reject))
-    );
-  }
-
   static any(promises) {
+    // returns the 1st promise to resolve and doesn't return
+    // fail except all the list of promises failed
     const errors = [];
     let rejectedPromises = 0;
     return new MyPromise((resolve, reject) => {
       for (let i = 0; i < promises.length; i++) {
-        const promise = promises[i];
-        promise.then(resolve).catch((value) => {
+        promises[i].then(resolve).catch((value) => {
           rejectedPromises++;
           errors[i] = value;
           if (rejectedPromises === promises.length)
@@ -181,4 +183,33 @@ class UncaughtPromiseError extends Error {
     this.stack = `(in promise) ${error.stack}`;
   }
 }
+const DEFAULT_VALUE = "default";
+const checkFunc = (v) => expect(v).toEqual(DEFAULT_VALUE);
+const failFunc = (v) => expect(1).toEqual(2);
+const checkFuncUndefined = (v) => expect(v).toBeUndefined();
+function promise({ value = DEFAULT_VALUE, fail = false } = {}) {
+  return new MyPromise((resolve, reject) =>
+    fail ? reject(value) : resolve(value)
+  );
+}
+
+// initialize promise
+const p = promise({ value: "Initialized MyPromise class" });
+const p2 = promise({ value: "tryout fail" }, true);
+const p3 = promise({ value: "Another one - DJ Khalid" });
+
+// tryout then without chaining
+p.then((val) => val);
+
+// tryout fail
+p2.then((p) => console.log(p));
+
+// tryout multiple then(s)
+p.then((val) => ({ init: val, then_1: "multiple then(s): 1" })).then((val) =>
+  console.log({
+    ...val,
+    then_2: "multiple then(s): 2",
+  })
+);
+
 module.exports = MyPromise;

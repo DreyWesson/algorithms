@@ -1,6 +1,5 @@
 function findFactorialRecursive(number) {
   //code here
-
   let result = 1;
   if (number >= 1) return number * findFactorialRecursive(number - 1);
   return result;
