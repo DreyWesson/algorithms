@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <div class="count">
+        <div class="scroll-count">
+          <p>Scroll event listener: <span id="scroll-count"></span></p>
+        </div>
+        <div class="throttle-count">
+          <p>
+            Throttle count: <span id="throttle-count"></span> <br />
+            <input
+              type="range"
+              id="throttle-range"
+              value="250"
+              min="50"
+              max="2000"
+              step="50"
+            /><br />
+            <small
+              >(every <span id="throttle-time">250</span>ms while user is
+              scrolling)</small
+            >
+          </p>
+        </div>
+        <div class="debounce-count">
+          <p>
+            Debounce count: <span id="debounce-count"></span> <br />
+            <input
+              type="range"
+              id="debounce-range"
+              value="250"
+              min="50"
+              max="2000"
+              step="50"
+            /><br />
+            <small
+              >(when user hasn't scrolled in
+              <span id="debounce-time">250</span>ms)</small
+            >
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        Pen by <a href="https://www.jemimaabu.com" target="_blank">Jemima Abu</a
+        ><span style="color: #d11e15"> &#9829;</span>
+      </p>
+    </footer>
+    <script src="./script.js"></script>
+  </body>
+</html>
