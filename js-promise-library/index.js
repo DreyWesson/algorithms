@@ -1,76 +1,76 @@
 const STATE = {
-  FULFILLED: "fulfilled",
-  REJECTED: "rejected",
-  PENDING: "pending",
+  fulfilled,
+  rejected,
+  pending,
 };
 
 class CustomPromise {
-  #listThenCallbacks = [];
-  #listCatchCallbacks = [];
-  #state = STATE.PENDING;
+  #listThenCbs = [];
+  #listCatchCbs = [];
+  #state = STATE.pending;
   #value = null;
-  #onSuccessBind = this.#onSuccess.bind(this);
-  #onFailBind = this.#onFail.bind(this);
-  constructors(cb) {
+  #bindOnSuccess = this.#onSuccess.bind(this);
+  #bindOnFail = this.#onFail.bind(this);
+
+  constructor(cb) {
     try {
-      cb(this.#onSuccessBind, this.#onFailBind);
+      cb(this.#bindOnSuccess, this.#bindOnFail);
     } catch (error) {
-      this.#onFailBind(e);
+      this.#bindOnFail(error);
     }
   }
-  #runAllCallbacks() {
-    if (this.#state === STATE.FULFILLED) {
-      this.#listThenCallbacks.forEach((cb) => cb(this.#value));
-      this.#listThenCallbacks = [];
-    } else if (this.#state === STATE.FULFILLED) {
-      this.#listCatchCallbacks.forEach((cb) => cb(this.#value));
-      this.#listCatchCallbacks = [];
+
+  #runCallbacks() {
+    if (this.#state === STATE.fulfilled) {
+      this.#listThenCbs.forEach((cb) => cb(this.#value));
+      this.#listThenCbs = [];
+    } else if (this.#state === STATE.rejected) {
+      this.#listCatchCbs.forEach((cb) => cb(this.#value));
+      this.#listCatchCbs = [];
     }
   }
 
   #onSuccess(value) {
     queueMicrotask(() => {
-      if (this.#state !== STATE.PENDING) return;
-      if (value instanceof CustomPromise)
-        return value.then(this.#onSuccessBind, this.#onFailBind);
+      if (this.#state !== STATE.pending) return;
+      if (value instanceof new CustomPromise())
+        return value.then(this.#bindOnSuccess, this.#bindOnFail);
+      this.#state = STATE.fulfilled;
       this.#value = value;
-      this.#state = STATE.FULFILLED;
-      this.#runAllCallbacks();
+      this.#runCallbacks();
     });
   }
   #onFail(value) {
     queueMicrotask(() => {
-      if (this.#state !== STATE.PENDING) return;
-      if (value instanceof CustomPromise)
-        return value.then(this.#onSuccessBind, this.#onFailBind);
-      if (this.#listCatchCallbacks === 0) throw new UncaughtPromiseError(value);
+      if (this.#state !== STATE.pending) return;
+      if (value instanceof new CustomPromise())
+        return value.then(this.#bindOnSuccess, this.#bindOnFail);
+      if (this.#listCatchCbs.length === 0)
+        throw new UncaughtPromiseError(value);
+      this.#state = STATE.rejected;
       this.#value = value;
-      this.#state = STATE.REJECTED;
-      this.#runAllCallbacks();
+      this.#runCallbacks();
     });
   }
   then(thenCb, catchCb) {
     return new CustomPromise((resolve, reject) => {
-      this.#listThenCallbacks.push((result) => {
-        if (!thenCb) {
-          return resolve(result);
-        }
+      this.#listThenCbs.push((result) => {
+        if (!thenCb) return resolve(result);
         try {
           resolve(thenCb(result));
         } catch (error) {
           reject(error);
         }
       });
-      this.#listCatchCallbacks.push((result) => {
-        if (!catchCb) {
-          return reject(result);
-        }
+      this.#listCatchCbs.push((result) => {
+        if (!catchCb) return reject(result);
         try {
           resolve(catchCb(result));
         } catch (error) {
           reject(error);
         }
       });
+      this.#runCallbacks();
     });
   }
   catch(cb) {
@@ -80,7 +80,7 @@ class CustomPromise {
     return this.then(
       (result) => {
         cb();
-        return resolve(result);
+        resolve(result);
       },
       (result) => {
         cb();
@@ -88,7 +88,6 @@ class CustomPromise {
       }
     );
   }
-
   static resolve(value) {
     return new CustomPromise((resolve, reject) => resolve(value));
   }
@@ -96,53 +95,55 @@ class CustomPromise {
     return new CustomPromise((resolve, reject) => reject(value));
   }
   static race(promises) {
-    return new CustomPromise((resolve, reject) => {
-      promises.forEach((promise) => {
-        promise.then(resolve).catch(reject);
-      });
-    });
+    return new CustomPromise((resolve, reject) =>
+      promises.forEach((promise) => promise.then(resolve).catch(reject))
+    );
   }
-
   static all(promises) {
     const results = [];
-    let numOfCompletedPromises = 0;
-    return new CustomPromise((resolve, reject) => {
-      for (let i = 0; i < promises.length; i++) {
-        const promise = promises[i];
+    let countResolvedPromises = 0;
+    return new CustomPromise((resolve, reject) =>
+      promises.forEach((promise, i) =>
         promise
-          .then((value) => {
-            results[i] = value;
-            numOfCompletedPromises++;
-            if (numOfCompletedPromises === promises.length) {
-              return resolve(results);
-            }
+          .then((result) => {
+            results[i] = result;
+            countResolvedPromises++;
+            if (countResolvedPromises === promises.length) resolve(results);
           })
-          .catch(reject);
-      }
-    });
+          .catch(reject)
+      )
+    );
   }
-
   static allSettled(promises) {
+    let completedPromises = 0;
     const results = [];
-    let numOfCompletedPromises = 0;
-    return new CustomPromise((resolve, reject) => {
-      for (let i = 0; i < promises.length; i++) {
-        const promise = promises[i];
+    return new CustomPromise((resolve, reject) =>
+      promises.forEach((promise, i) =>
         promise
-          .then((value) => {
-            return (results[i] = { value, status: STATE.FULFILLED });
-          })
-          .catch((value) => {
-            return (results[i] = { value, status: STATE.REJECTED });
-          })
+          .then((result) => (results[i] = { status: STATE.fulfilled, result }))
+          .catch((reason) => (results[i] = { status: STATE.rejected, reason }))
           .finally(() => {
-            numOfCompletedPromises++;
-            if (numOfCompletedPromises === promises.length) {
-              return resolve(results);
-            }
-          });
-      }
-    });
+            completedPromises++;
+            if (completedPromises === promises.length) resolve(results);
+          })
+      )
+    );
+  }
+  static any(promises) {
+    const errors = [];
+    let countRejectedPromises = 0;
+    return new CustomPromise((resolve, reject) =>
+      promises.forEach((promise) =>
+        promise.then(resolve).catch((error) => {
+          errors[i] = error;
+          countRejectedPromises++;
+          if (countRejectedPromises === promises.length)
+            return reject(
+              new AggregateError(error, "All promises were rejected")
+            );
+        })
+      )
+    );
   }
 }
 

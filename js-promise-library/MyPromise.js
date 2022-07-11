@@ -131,32 +131,34 @@ class MyPromise {
     let numOfCompletedPromises = 0;
     return new MyPromise((resolve, reject) => {
       // loop thru promises
-      for (let i = 0; i < promises.length; i++) {
-        promises[i]
+      promises.forEach((promise, i) => {
+        promise
           .then((value) => {
-            numOfCompletedPromises++;
             results[i] = value;
-            if (numOfCompletedPromises === promises.length) resolve(results);
+            numOfCompletedPromises++;
+            if (numOfCompletedPromises === promises.length)
+              return resolve(results);
           })
           .catch(reject);
-      }
+      });
     });
   }
 
   static allSettled(promises) {
     // allSettled should return {"status, resolved value/failure reason"}
     const results = [];
-    let completedPromises = 0;
-    return new MyPromise((resolve) => {
-      for (let i = 0; i < promises.length; i++) {
-        promises[i]
+    let numOfCompletedPromises = 0;
+    return new MyPromise((resolve, reject) => {
+      promises.forEach((promise, i) => {
+        promise
           .then((value) => (results[i] = { status: STATE.FULFILLED, value }))
           .catch((reason) => (results[i] = { status: STATE.REJECTED, reason }))
           .finally(() => {
-            completedPromises++;
-            if (completedPromises === promises.length) resolve(results);
+            numOfCompletedPromises++;
+            if (numOfCompletedPromises === promises.length)
+              return resolve(results);
           });
-      }
+      });
     });
   }
 
@@ -166,14 +168,16 @@ class MyPromise {
     const errors = [];
     let rejectedPromises = 0;
     return new MyPromise((resolve, reject) => {
-      for (let i = 0; i < promises.length; i++) {
-        promises[i].then(resolve).catch((value) => {
+      promises.forEach((promise, i) => {
+        promise.then(resolve).catch((error) => {
+          errors[i] = error;
           rejectedPromises++;
-          errors[i] = value;
           if (rejectedPromises === promises.length)
-            reject(new AggregateError(errors, "All promises were rejected"));
+            return reject(
+              new AggregateError(errors, "All promises are rejected")
+            );
         });
-      }
+      });
     });
   }
 }
@@ -183,33 +187,33 @@ class UncaughtPromiseError extends Error {
     this.stack = `(in promise) ${error.stack}`;
   }
 }
-const DEFAULT_VALUE = "default";
-const checkFunc = (v) => expect(v).toEqual(DEFAULT_VALUE);
-const failFunc = (v) => expect(1).toEqual(2);
-const checkFuncUndefined = (v) => expect(v).toBeUndefined();
-function promise({ value = DEFAULT_VALUE, fail = false } = {}) {
-  return new MyPromise((resolve, reject) =>
-    fail ? reject(value) : resolve(value)
-  );
-}
+// const DEFAULT_VALUE = "default";
+// const checkFunc = (v) => expect(v).toEqual(DEFAULT_VALUE);
+// const failFunc = (v) => expect(1).toEqual(2);
+// const checkFuncUndefined = (v) => expect(v).toBeUndefined();
+// function promise({ value = DEFAULT_VALUE, fail = false } = {}) {
+//   return new MyPromise((resolve, reject) =>
+//     fail ? reject(value) : resolve(value)
+//   );
+// }
 
-// initialize promise
-const p = promise({ value: "Initialized MyPromise class" });
-const p2 = promise({ value: "tryout fail" }, true);
-const p3 = promise({ value: "Another one - DJ Khalid" });
+// // initialize promise
+// const p = promise({ value: "Initialized MyPromise class" });
+// const p2 = promise({ value: "tryout fail" }, true);
+// const p3 = promise({ value: "Another one - DJ Khalid" });
 
-// tryout then without chaining
-p.then((val) => val);
+// // tryout then without chaining
+// p.then((val) => val);
 
-// tryout fail
-p2.then((p) => console.log(p));
+// // tryout fail
+// p2.then((p) => console.log(p));
 
-// tryout multiple then(s)
-p.then((val) => ({ init: val, then_1: "multiple then(s): 1" })).then((val) =>
-  console.log({
-    ...val,
-    then_2: "multiple then(s): 2",
-  })
-);
+// // tryout multiple then(s)
+// p.then((val) => ({ init: val, then_1: "multiple then(s): 1" })).then((val) =>
+//   console.log({
+//     ...val,
+//     then_2: "multiple then(s): 2",
+//   })
+// );
 
 module.exports = MyPromise;

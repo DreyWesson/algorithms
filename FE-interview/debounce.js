@@ -15,5 +15,3 @@ function debounce_leading(func, timeout = 300) {
     tag = setTimeout(() => (tag = undefined), timeout);
   };
 }
-
-// console.log(debounce(() => networkCall())());
