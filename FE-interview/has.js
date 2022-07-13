@@ -6,7 +6,6 @@ function has(obj, property) {
 
     for (let i = 0; i < path.length; i++) {
       const currentKey = path[i];
-      console.log(key, path[i]);
       if (i === 0 && key === path[0]) continue;
       else {
         if (!currentItem[currentKey]) {
@@ -21,4 +20,4 @@ function has(obj, property) {
   }
 }
 const obj = { a: { b: { c: { d: { e: 15 } } } } };
-has(obj, "a.b.c.d.e");
+has(obj, "a.b.c.f.e");
