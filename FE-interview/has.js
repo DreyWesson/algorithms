@@ -3,21 +3,15 @@ function has(obj, property) {
 
   for (const [key, value] of Object.entries(obj)) {
     let currentItem = value;
-
     for (let i = 0; i < path.length; i++) {
       const currentKey = path[i];
       if (i === 0 && key === path[0]) continue;
-      else {
-        if (!currentItem[currentKey]) {
-          currentItem = undefined;
-          break;
-        }
-        currentItem = currentItem[currentKey];
-      }
+      currentItem = currentItem[currentKey] || undefined; //slot in nested value
+      if (!currentItem) break;
     }
     console.log(currentItem ? true : false);
     return currentItem ? true : false;
   }
 }
 const obj = { a: { b: { c: { d: { e: 15 } } } } };
-has(obj, "a.b.c.f.e");
+has(obj, "a.b.c.d.e");
