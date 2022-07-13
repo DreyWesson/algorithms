@@ -1,6 +1,5 @@
 function has(obj, property) {
   const path = property.split(".");
-
   for (const [key, value] of Object.entries(obj)) {
     let currentItem = value;
     for (let i = 0; i < path.length; i++) {
@@ -15,3 +14,18 @@ function has(obj, property) {
 }
 const obj = { a: { b: { c: { d: { e: 15 } } } } };
 has(obj, "a.b.c.d.e");
+
+function hasAlt(obj, property) {
+  const path = property.split(".");
+  let tmp = null;
+  for (let i = 0; i < path.length; i++) {
+    const element = path[i];
+    i === 0
+      ? (tmp = obj[element] || undefined)
+      : (tmp = tmp[element] || undefined);
+    if (!tmp) break;
+  }
+  console.log(tmp ? true : false);
+  return tmp ? true : false;
+}
+hasAlt(obj, "a.b.c.f.e");
