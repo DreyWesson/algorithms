@@ -1,42 +1,33 @@
-function test(a, b) {
-  const isArg1NaN = isNaN(a) && typeof a === "number";
-  const isArg2NaN = isNaN(b) && typeof b === "number";
-  if (isArg1NaN && isArg2NaN) {
-    console.log("true");
-    return true;
+function groupBy(collection, property) {
+  const memo = {};
+  if (!collection || typeof collection !== "object") {
+    return memo;
   }
-  if (a === b) return true;
-  const conditions =
-    a &&
-    b &&
-    typeof a === "object" &&
-    typeof b === "object" &&
-    Object.keys(a).length === Object.keys(a).length;
-  if (conditions) {
-    if (Array.isArray(a) === Array.isArray(b)) {
-      for (const key in a) {
-        console.log(key);
-        if (key in b) {
-          if (!test(a[key], b[key])) return false;
-        } else return false;
+  const isPropertyFunc = typeof property === "function";
+  const isPropertyStr = typeof property === "string";
+  for (const value of Object.values(collection)) {
+    let current = undefined;
+    if (isPropertyFunc) current = property(value);
+    else if (isPropertyStr) {
+      const path = property.split(".");
+      let i,
+        currentKey,
+        currentItem = value;
+      //   if (groupBy(value, "length")) {
+      //     console.log(value);
+      //   }
+      //   console.log(value);
+
+      for (let i = 0; i < path.length; i++) {
+        currentKey = path[i];
+        currentItem = currentItem[currentKey];
       }
-      return true;
     }
+    memo[current] ? memo[current].push(value) : (memo[current] = [value]);
+
+    // console.log({ current, value, memo, collection });
   }
-  return false;
+  return memo;
 }
-const obj1 = {
-  name: "John",
-  age: 42,
-  greatGrandParent: {
-    grandparent: { parent: { children: ["Marv", "Israel"] } },
-  },
-};
-const obj2 = {
-  name: "John",
-  age: 42,
-  greatGrandParent: {
-    grandparent: { parent: { children: ["Marvelous", "Israel"] } },
-  },
-};
-console.log(test(obj1, obj2));
+// groupBy([6.1, 2.4, 2.7, 6.8], Math.floor);
+groupBy({ a: { b: { c: 1 } } }, "length");

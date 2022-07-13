@@ -15,6 +15,7 @@ function deepEquals(a, b) {
       for (const key in a)
         if (key in b) {
           if (!deepEquals(a[key], b[key])) return false;
+          continue;
         } else return false;
       return true;
     }
