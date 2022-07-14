@@ -14,6 +14,8 @@ function deepEquals(a, b) {
     if (Array.isArray(a) === Array.isArray(b)) {
       for (const key in a)
         if (key in b) {
+          console.log(key);
+
           if (!deepEquals(a[key], b[key])) return false;
           continue;
         } else return false;
@@ -59,20 +61,20 @@ const arr = Array(1000).fill("a"),
   obj4 = { b: 2, c: 3 };
 
 console.log(deepEquals(obj1, obj2));
-console.log(deepEquals(1, 1));
-console.log(deepEquals("a", "a"));
-console.log(deepEquals(NaN, NaN));
-console.log(deepEquals([], []));
-console.log(deepEquals([1], [1]));
-console.log(deepEquals(arr3, arr3));
-console.log(deepEquals(undefined, undefined));
-console.log(deepEquals(null, null));
-console.log(deepEquals(arr, arr));
-console.log("\n");
-console.log(deepEquals(1, 0));
-console.log(deepEquals("a", "b"));
-console.log(deepEquals(NaN, 10));
-console.log(deepEquals(NaN, "NaN"));
-console.log(deepEquals(arr5, arr4));
-console.log(deepEquals(arr3, arr4));
-console.log(deepEquals(obj3, obj4));
+// console.log(deepEquals(1, 1));
+// console.log(deepEquals("a", "a"));
+// console.log(deepEquals(NaN, NaN));
+// console.log(deepEquals([], []));
+// console.log(deepEquals([1], [1]));
+// console.log(deepEquals(arr3, arr3));
+// console.log(deepEquals(undefined, undefined));
+// console.log(deepEquals(null, null));
+// console.log(deepEquals(arr, arr));
+// console.log("\n");
+// console.log(deepEquals(1, 0));
+// console.log(deepEquals("a", "b"));
+// console.log(deepEquals(NaN, 10));
+// console.log(deepEquals(NaN, "NaN"));
+// console.log(deepEquals(arr5, arr4));
+// console.log(deepEquals(arr3, arr4));
+// console.log(deepEquals(obj3, obj4));
