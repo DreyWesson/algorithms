@@ -1,18 +1,15 @@
 const JSONStringify = (obj) => {
-  const isArray = (value) => Array.isArray(value) && typeof value === "object";
-  const isObject = (value) =>
-    typeof value === "object" && value !== null && !Array.isArray(value);
-  const isString = (value) => typeof value === "string";
-  const isBoolean = (value) => typeof value === "boolean";
-  const isNumber = (value) => typeof value === "number";
+  //   if (typeof obj === "function") {
+  //     console.log(Object.keys(obj));
+  //     return;
+  //   }
+  const isArray = Array.isArray(obj) && typeof obj === "object";
+  const isObject =
+    typeof obj === "object" && obj !== null && !Array.isArray(obj);
 
-  // Common check for number, string and boolean value
-  const restOfDataTypes = (value) =>
-    isNumber(value) || isString(value) || isBoolean(value);
-
-  // Boolean and Number behave in a same way and String we need to add extra qoutes
-  if (restOfDataTypes(obj)) {
-    const passQuotes = isString(obj) ? `"` : "";
+  // Bool. & Num. behave d same but String needs extra quotes
+  if (!(isArray || isObject)) {
+    const passQuotes = typeof obj === "string" ? `"` : "";
     return `${passQuotes}${obj}${passQuotes}`;
   }
 
@@ -24,7 +21,7 @@ const JSONStringify = (obj) => {
   };
 
   // Recursive function call for Arrays to handle nested arrays
-  if (isArray(obj)) {
+  if (isArray) {
     let arrStr = "";
     obj.forEach((eachValue) => {
       arrStr += JSONStringify(eachValue);
@@ -34,7 +31,7 @@ const JSONStringify = (obj) => {
   }
 
   // Recursive function call for Object to handle nested Object
-  if (isObject(obj)) {
+  if (isObject) {
     let objStr = "";
     const objKeys = Object.keys(obj);
     objKeys.forEach((eachKey) => {
@@ -54,8 +51,12 @@ const sampleObj = {
     city: "New york",
     state: "NY",
   },
+  print() {
+    console.log("hello");
+  },
 };
 console.log(JSONStringify(sampleObj));
+console.log(JSON.stringify(sampleObj));
 // console.log(
 //   JSON.stringify(sampleObj) === JSONStringify(sampleObj)
 //     ? "Test case Passed"

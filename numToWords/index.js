@@ -8,8 +8,11 @@ function numToWords(val) {
     counter = 0;
 
   const calcTens = (value) => {
+    console.log("::::::", value);
     let hundredWords = "";
     value = value.length > 2 ? `0${value.substr(1)}` : `0${value}`;
+    console.log("::::::", value);
+
     const temp = value.substr(1),
       char2 = value.charAt(1),
       char3 = value.charAt(2);
@@ -17,6 +20,7 @@ function numToWords(val) {
     else hundredWords += `${hundreds[char2]} ${tens[char3]}`;
     return hundredWords;
   };
+
   const printResult = (newInput, commaType, prevResult) => {
     console.log({ newInput, commaType, prevResult });
     const checkNewInput = newInput

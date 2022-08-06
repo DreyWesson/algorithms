@@ -2,14 +2,14 @@ function merge(arr1, arr2) {
   let results = [];
   let i = 0;
   let j = 0;
-  function pusher(index, incrementIOrJ) {
+  function pusher(index, incrementIOrJ = "j") {
     results.push(index);
     incrementIOrJ === "i" ? i++ : j++;
   }
   while (i < arr1.length && j < arr2.length)
-    arr2[j] > arr1[i] ? pusher(arr1[i], "i") : pusher(arr2[j], "j");
+    arr2[j] > arr1[i] ? pusher(arr1[i], "i") : pusher(arr2[j]);
   while (i < arr1.length) pusher(arr1[i], "i");
-  while (j < arr2.length) pusher(arr2[j], "j");
+  while (j < arr2.length) pusher(arr2[j]);
   return results;
 }
 
