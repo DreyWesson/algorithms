@@ -53,41 +53,90 @@ void ft_three_digits(int val)
   	hundreds[7]="seventy";
   	hundreds[8]="eighty";
   	hundreds[9]="ninety";
-  	hundreds[10]="hundred and";
+  	hundreds[10]="hundred";
 
 	div = (val / 10);
 	rem = val % 10;
 	if (val < 100)
 	{
-		if (val <= 20)
+		if (val == 0)
+		{}
+		else if (val <= 20)
 			printf("%s", tens[val]);
 		else
 			printf("%s %s", hundreds[div], tens[rem]);
 	}
-else
-{
-	div = val / 100;
-	rem = val % 100;
-	div_2 = rem /10;
-	rem_2 = rem % 10;
-	if (rem <= 20)
-		printf("%s hundred and %s", tens[div], tens[rem]);
 	else
-		printf("%s hundred and %s %s", tens[div], hundreds[div_2], tens[rem_2]);
-}
+	{
+		div = val / 100;
+		rem = val % 100;
+		div_2 = rem /10;
+		rem_2 = rem % 10;
+		if (rem <= 20 && rem > 0)
+			printf("%s hundred and %s", tens[div], tens[rem]);
+		else if (rem <= 20 && rem == 0 && div != 0)
+			printf("%s hundred", tens[div]);
+		else
+			printf("%s hundred and %s %s", tens[div], hundreds[div_2], tens[rem_2]);
+	}
 
 	
 }
 
 // capitalize func
+// remove comma
+// create atoi from scratch
+// change printf to write
 
 void convert_to_num(char *val)
 {
 	int num;
-	num =  atoi(val);
-	
-	ft_three_digits(num);
+	int len;
+	char tmp[3];
+	int every[50];
+	int every_counter;
+	int tmp_i;
+	const char *commas[14];
 
+	commas[0] = "zero";
+	commas[1] = "hundred";
+	commas[2]="thousand"; 
+	commas[3]="million"; 
+	commas[4]="billion"; 
+	commas[5]="trillion";
+	commas[6]="quadrillion";
+	commas[7]="quintillion";
+	commas[8]="sextillion";
+	commas[9]="septillion";
+	commas[10]="octillion";
+	commas[11]="nonillion";
+	commas[12]="decillion";
+	commas[13]="undecillion";
+	tmp_i = 2;
+	every_counter = 0;
+	len = ft_len(val);
+	while(len >= 0)
+	{
+		if (tmp_i >= 0)
+			tmp[tmp_i] = val[len-1];
+
+		if (tmp_i == 0)
+		{
+			num =  atoi(tmp);
+			every[every_counter] = num;
+			tmp_i = 3;
+			every_counter++;
+		}
+		tmp_i--;
+		len--;
+	}
+	while(every_counter > 0)
+	{
+		ft_three_digits(every[every_counter-1]);
+		if (every_counter > 1)
+			printf(" %s, ", commas[every_counter]);
+		every_counter--;
+	}
 }
 
 int main(int argc, char *argv[])
