@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include<stdlib.h>
+
+int	ft_atoi(char *str);
+
 int ft_len(char *str)
 {
 	int i;
@@ -84,8 +86,7 @@ void ft_three_digits(int val)
 }
 
 // capitalize func
-// remove comma
-// create atoi from scratch
+// last 3 digits needs grammatical restructuring
 // change printf to write
 
 void convert_to_num(char *val)
@@ -122,7 +123,7 @@ void convert_to_num(char *val)
 
 		if (tmp_i == 0)
 		{
-			num =  atoi(tmp);
+			num =  ft_atoi(tmp);
 			every[every_counter] = num;
 			tmp_i = 3;
 			every_counter++;
