@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int	ft_atoi(char *str);
-char *ft_search_dict(char *words[], int length, char *dest);
+char *ft_search_dict(char *words[], int length, char *dest, int ln);
 char ** loadfile(char * filename, int *len);
 int ft_len(char *str)
 {
@@ -15,7 +15,7 @@ int ft_len(char *str)
 	return (i);
 }
 
-void ft_three_digits(int val)
+void ft_three_digits(int val, char **words, int length)
 {
 	int div;
 	int rem;
@@ -58,6 +58,13 @@ void ft_three_digits(int val)
   	hundreds[9]="ninety";
   	hundreds[10]="hundred";
 
+	char dest[15];
+	// int length = 0;
+	// char **words = loadfile(val_2, &length);
+	// Display first 100 lines
+	
+	printf("%s\n", ft_search_dict(words, length, dest, 11));
+
 	div = (val / 10);
 	rem = val % 10;
 	if (val < 100)
@@ -65,9 +72,9 @@ void ft_three_digits(int val)
 		if (val == 0)
 		{}
 		else if (val <= 20)
-			printf("%s", tens[val]);
+			printf("%s", ft_search_dict(words, length, dest, val));
 		else
-			printf("%s %s", hundreds[div], tens[rem]);
+			printf("%s %s", ft_search_dict(words, length, dest, (div + 18)), ft_search_dict(words, length, dest, rem));
 	}
 	else
 	{
@@ -101,12 +108,11 @@ void convert_to_num(char *val, char *val_2)
 	const char *commas[14];
 
 		//  load file into data stucture
-	char dest[15];
+	// char dest[15];
 	int length = 0;
 	char **words = loadfile(val_2, &length);
 	// Display first 100 lines
 	
-	printf("%s\n", ft_search_dict(words, length, dest));
 
 	commas[0] = "zero";
 	commas[1] = "hundred";
@@ -142,7 +148,7 @@ void convert_to_num(char *val, char *val_2)
 	}
 	while(every_counter > 0)
 	{
-		ft_three_digits(every[every_counter-1]);
+		ft_three_digits(every[every_counter-1], words, length);
 		if (every_counter > 1)
 			printf(" %s, ", commas[every_counter]);
 		every_counter--;
