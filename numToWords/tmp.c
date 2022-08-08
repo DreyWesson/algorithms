@@ -1,7 +1,8 @@
 #include <stdio.h>
 
 int	ft_atoi(char *str);
-
+char *ft_search_dict(char *words[], int length, char *dest);
+char ** loadfile(char * filename, int *len);
 int ft_len(char *str)
 {
 	int i;
@@ -89,7 +90,7 @@ void ft_three_digits(int val)
 // last 3 digits needs grammatical restructuring
 // change printf to write
 
-void convert_to_num(char *val)
+void convert_to_num(char *val, char *val_2)
 {
 	int num;
 	int len;
@@ -98,6 +99,14 @@ void convert_to_num(char *val)
 	int every_counter;
 	int tmp_i;
 	const char *commas[14];
+
+		//  load file into data stucture
+	char dest[15];
+	int length = 0;
+	char **words = loadfile(val_2, &length);
+	// Display first 100 lines
+	
+	printf("%s\n", ft_search_dict(words, length, dest));
 
 	commas[0] = "zero";
 	commas[1] = "hundred";
@@ -140,9 +149,17 @@ void convert_to_num(char *val)
 	}
 }
 
+// int main(int argc, char *argv[])
+// {
+// 	if (argc>1)
+		// convert_to_num(argv[1]);
+// 	return (0);
+// }
+
 int main(int argc, char *argv[])
 {
-	if (argc>1)
-		convert_to_num(argv[1]);
+	if (argc == 1)
+		return (0);
+	convert_to_num(argv[1], argv[2]);
 	return (0);
 }

@@ -5,23 +5,24 @@
 int    ft_strlen(char *str);
 char	*ft_strcpy(char *dest, char *src);
 char *ft_fgets(char my_string[], int bytes, FILE *fp);
-void ft_search_dict(char *words[], int length, char *dest);
+char *ft_search_dict(char *words[], int length, char *dest, int ln);
+char ** loadfile(char * filename, int *len);
 
 const int STEPSIZE = 100;
-char ** loadfile(char * filename, int *len);
-int main(int argc, char *argv[])
-{
-	if (argc == 1)
-		return (0);
+// int main(int argc, char *argv[])
+// {
+// 	if (argc == 1)
+// 		return (0);
 
-	//  load file into data stucture
-	int length = 0;
-	char **words = loadfile(argv[1], &length);
-	char dest[15];
-	// Display first 100 lines
-	ft_search_dict(words, length, dest);
-	printf("%s", dest);
-}
+// 	//  load file into data stucture
+// 	int length = 0;
+// 	char **words = loadfile(argv[1], &length);
+// 	char dest[15];
+// 	// Display first 100 lines
+	
+// 	printf("%s", ft_search_dict(words, length, dest));
+
+// }
 
 char ** loadfile(char *filename, int *len)
 {
@@ -108,16 +109,15 @@ char *ft_fgets(char my_string[], int bytes, FILE *fp)
     }
 }
 
-void ft_search_dict(char *words[], int length, char *dest)
+char *ft_search_dict(char *words[], int length, char *dest, int ln)
 {
 	int i = 0;
-	int j = 10;
 	int k =0;
 	int l = 0;
 	int start = 0;
 	while(i < length)
 	{
-		if (i == j)
+		if (i == ln)
 		{
 			while (words[i][k] != '\0')
 			{
@@ -135,4 +135,5 @@ void ft_search_dict(char *words[], int length, char *dest)
 		
 		i++;
 	}
+	return (dest);
 }
