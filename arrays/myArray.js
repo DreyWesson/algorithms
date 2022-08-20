@@ -1,7 +1,7 @@
 class MyArray {
-  constructor() {
-    this.length = 0;
-    this.value = {};
+  constructor(value = {}, length = 0) {
+    this.length = length;
+    this.value = value;
   }
 
   get(index) {
@@ -75,6 +75,17 @@ class MyArray {
     this.value = newArr;
     this.length = counter;
   }
+
+  slice(start, end = this.length) {
+    let newArr = {};
+    let counter = 0;
+    for (let i = start; i < end; i++) {
+      newArr[counter] = this.value[i];
+      counter++;
+    }
+    newArr = new MyArray(newArr, counter);
+    return newArr;
+  }
 }
 const miniArray = new MyArray();
 // miniArray.push(0)
@@ -100,5 +111,9 @@ miniArray.push("Orange");
 miniArray.push("Apple");
 miniArray.push("Mango");
 miniArray.splice(2, 1, "Lemon", "Kiwi");
+// miniArray.splice(0,1)
+//
+console.log(miniArray);
+miniArray.slice(1, 3);
 console.log(miniArray);
 // console.log(miniArray.length)
