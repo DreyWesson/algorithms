@@ -17,9 +17,7 @@ class MyArray {
     this.length--;
   }
   swapLeft(index) {
-    for (let i = index; i < this.length; i++) {
-      this.value[i] = this.value[i + 1];
-    }
+    for (let i = index; i < this.length; i++) this.value[i] = this.value[i + 1];
   }
 
   remove(index) {
@@ -27,16 +25,16 @@ class MyArray {
     delete this.value[this.length - 1];
     this.length--;
   }
+
   shift() {
     this.swapLeft(0);
     delete this.value[this.length - 1];
     this.length--;
   }
+
   unshift(newVal) {
     let memo = { 0: newVal };
-    for (let i = 0; i < this.length; i++) {
-      memo[i + 1] = this.value[i];
-    }
+    for (let i = 0; i < this.length; i++) memo[i + 1] = this.value[i];
     this.length++;
     this.value = memo;
   }
@@ -44,17 +42,16 @@ class MyArray {
   concat(...arr) {
     let newArr = [];
     for (let i = 0; i < arr.length; i++) {
-      if (Array.isArray(arr[i])) newArr = [...newArr, ...arr[i]];
-      else newArr.push(arr[i]);
+      Array.isArray(arr[i])
+        ? (newArr = [...newArr, ...arr[i]])
+        : newArr.push(arr[i]);
     }
-    for (let j = 0; j < newArr.length; j++) {
-      this.push(newArr[j]);
-    }
+    for (let j = 0; j < newArr.length; j++) this.push(newArr[j]);
   }
 
   splice(start, del, ...rest) {
-    let newArr = {};
-    let counter = 0;
+    let newArr = {},
+      counter = 0;
 
     for (let i = 0; i < start; i++) {
       newArr[counter] = this.value[i];
@@ -67,7 +64,7 @@ class MyArray {
         counter++;
       }
 
-    start = start + del;
+    start += del;
     for (let i = start; i < this.length; i++) {
       newArr[counter] = this.value[i];
       counter++;
@@ -77,14 +74,26 @@ class MyArray {
   }
 
   slice(start, end = this.length) {
-    let newArr = {};
-    let counter = 0;
+    let newArr = {},
+      counter = 0;
     for (let i = start; i < end; i++) {
       newArr[counter] = this.value[i];
       counter++;
     }
     newArr = new MyArray(newArr, counter);
     return newArr;
+  }
+
+  reverse() {
+    let i = this.length - 1;
+    let tmp = null;
+    for (let j = 0; j < this.length; j++) {
+      if (j > i) break;
+      tmp = this.value[i];
+      this.value[i] = this.value[j];
+      this.value[j] = tmp;
+      i--;
+    }
   }
 }
 const miniArray = new MyArray();
