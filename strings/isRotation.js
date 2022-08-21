@@ -1,28 +1,26 @@
+// Hi, here's your problem today. This problem was recently asked by Apple:
+
+// You are given two strings, A and B. Return whether A can be shifted some number of times to get B.
+
+// Eg. A = abcde, B = cdeab should return true because A can be shifted 3 times to the right to get B. A = abc and B= acb should return false.
+// def is_shifted(a, b):
+//   # Fill this in.
+// print is_shifted('abcde', 'cdeab')
+// # True
 function isRotation(str1, str2) {
-  if (str1.length !== str2.length) return false;
-  let i = 0,
-    k = 0,
-    result = true;
-  const firstIdx = str2.charAt(0),
-    str1Len = str1.length,
-    tmp2 = str2.substr(1).length;
-
-  for (i; i < str1Len - 1; i++)
-    if (firstIdx === str1.charAt(i) && i + 1 === tmp2) break;
-
-  console.log(i);
-  for (let j = 0; j < str1Len; j++) {
-    const condition1 = j + i < str1Len && str2.charAt(j) !== str1.charAt(j + i);
-    const condition2 =
-      i + j >= str1Len && str2.charAt(j) !== str1.charAt(k) && k < i;
-    if (condition1 || condition2) {
-      result = false;
-      break;
-    }
-    if (i + j >= str1Len) k++;
-    if (k >= i) break;
+  let rewrite = str1;
+  for (let i = 0; i < str1.length; i++) {
+    const char = str1.charAt(i);
+    rewrite += char;
+    let substrOfRewrite = rewrite.slice(i + 1);
+    if (substrOfRewrite === str2) return true;
   }
-  return result;
+  return false;
 }
 console.log(isRotation("ABBAB", "BABBA"));
 console.log(isRotation("ABBA", "BAAB"));
+console.log(isRotation("abcde", "cdeab"));
+console.log(isRotation("waterbottle", "lewaterbott")); // true
+console.log(isRotation("waterbottle", "bottlewater")); // true
+console.log(isRotation("waterbottle", "erbottlewat")); // true
+console.log(isRotation("waterbottle", "lewaterbottx")); // false

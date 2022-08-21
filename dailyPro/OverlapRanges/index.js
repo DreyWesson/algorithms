@@ -21,5 +21,5 @@ function overlapRanges(arr) {
   return tmp.length >= arr[4] ? true : false;
 }
 
-console.log(overlapRanges([4, 10, 2, 6, 3]));
-console.log(overlapRanges([10, 20, 4, 14, 4]));
+console.log(overlapRanges([4, 10, 2, 6, 3])); // [4 5 6]
+console.log(overlapRanges([10, 20, 4, 14, 4])); // [10 11 12 13 14]
