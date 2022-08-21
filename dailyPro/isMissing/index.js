@@ -5,20 +5,13 @@
 // Output: [3,7]
 
 function isMissing(arr) {
+  let max = 0;
   const memo = {},
     tmp = [];
-  let count = 1;
-
-  for (let i = 0; i < arr.length; i++)
-    !memo[arr[i]] ? (memo[arr[i]] = 1) : memo[arr[i]]++;
-
-  for (const property in memo) {
-    while (!memo[count]) {
-      tmp.push(count);
-      count++;
-    }
-    if (memo[count]) count++;
-  }
+  for (let i = 0; i < arr.length; i++) max = Math.max(max, arr[i]);
+  for (let i = 1; i < max; i++) memo[i] = i;
+  for (let i = 0; i < arr.length; i++) if (memo[arr[i]]) delete memo[arr[i]];
+  for (const property in memo) tmp.push(+property);
   console.log(tmp);
   return tmp;
 }
