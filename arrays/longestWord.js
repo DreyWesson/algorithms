@@ -4,6 +4,7 @@ function longestWord(sen) {
   const tmp = ["", 0];
   let words = "";
   let counter = 0;
+
   for (let i = 0; i < sen.length; i++) {
     if (isAlphanumeric(sen[i])) {
       counter++;

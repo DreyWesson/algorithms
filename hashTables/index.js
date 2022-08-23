@@ -1,7 +1,7 @@
 class HashTable {
   constructor(size) {
     this.data = new Array(size);
-    // this.data = [];
+    // ['grapes',];
   }
 
   _hash(key) {
@@ -13,10 +13,10 @@ class HashTable {
   }
 
   set(key, value) {
-    let address = this._hash(key);
-    console.log(address);
-    if (!this.data[address]) this.data[address] = [];
-    this.data[address].push([key, value]);
+    let genAddress = this._hash(key);
+    console.log(genAddress);
+    if (!this.data[genAddress]) this.data[genAddress] = [];
+    this.data[genAddress].push([key, value]);
     return this.data;
   }
 

@@ -39,3 +39,4 @@ function longest_substring_with_k_distinct(str, k) {
 // console.log(longest_substring_with_k_distinct("araaci", 2));
 // console.log(longest_substring_with_k_distinct("araaci", 1));
 console.log(longest_substring_with_k_distinct("cbbebi", 3));
+// console.log(longest_substring_with_k_distinct("cbbebi", 3));
