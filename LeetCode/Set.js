@@ -29,7 +29,9 @@ const RandomizedSet = function () {
  * @return {boolean}
  */
 RandomizedSet.prototype.insert = function (val) {
-  if (this.value.includes(val)) return false;
+  if (this.value.includes(val)) {
+    return false;
+  }
   this.value.push(val);
   this.size++;
   return true;
