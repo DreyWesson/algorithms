@@ -35,7 +35,13 @@ const LRUCache = function (capacity) {
  * @return {number}
  */
 LRUCache.prototype.get = function (key) {
-  console.log(this.cache.includes(key) ? this.value[key] : -1);
+  console.log(
+    this.cache.includes(key) ? this.value[key] : -1,
+    "::",
+    this.cache,
+    "::",
+    this.value
+  );
   return this.cache.includes(key) ? this.value[key] : -1;
 };
 
@@ -46,8 +52,11 @@ LRUCache.prototype.get = function (key) {
  */
 LRUCache.prototype.put = function (key, value) {
   this.value[key] = value;
-  if (this.counter > this.capacity) delete this.value[this.cache[this.rotate]];
-  if (this.counter >= this.capacity) this.cache.splice(this.rotate, 1);
+  //   if (this.counter > this.capacity) delete this.value[this.cache[this.rotate]];
+  if (this.counter >= this.capacity) {
+    delete this.value[this.cache[this.rotate]];
+    this.cache.splice(this.rotate, 1);
+  }
   this.rotate--;
   this.counter++;
   this.cache.push(key);
