@@ -1,7 +1,3 @@
-/**
- * @param {string[]} strs
- * @return {string}
- */
 function compareTwoStr(str1, str2) {
   let minLen = Math.min(str1.length, str2.length);
   let tmp = "";
@@ -11,18 +7,18 @@ function compareTwoStr(str1, str2) {
   }
   return tmp;
 }
-// compareTwoStr("reflower", "flow");
+
 var longestCommonPrefix = function (str) {
   if (str.length === 1) return str[0];
   let tail = 0;
-  let result = null;
+  let result = "";
   for (let head = 1; head < str.length; head++) {
-    // console.log();
     result = compareTwoStr(str[tail], str[head]);
-    if (!result) return "";
+    if (!result) break;
     str[head] = result;
     tail++;
   }
-  //   console.log(result);
   return result;
 };
+// longestCommonPrefix(["flower", "flow", "flight"]); // fl
+longestCommonPrefix(["acc", "aaa", "aaba"]); // a
