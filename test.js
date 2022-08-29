@@ -1,28 +1,25 @@
-/**
- * @param {string[]} strs
- * @return {string}
- */
-function compareTwoStr(str1, str2) {
-  let minLen = Math.min(str1.length, str2.length);
-  let tmp = "";
-  for (let i = 0; i < minLen; i++) {
-    if (str1[i] !== str2[i]) break;
-    tmp += str1[i];
+var removeDuplicates = function (nums, k) {
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === k) nums[i] = undefined;
   }
-  return tmp;
-}
-// compareTwoStr("reflower", "flow");
-var longestCommonPrefix = function (str) {
-  if (str.length === 1) return str[0];
-  let tail = 0;
-  let result = null;
-  for (let head = 1; head < str.length; head++) {
-    // console.log();
-    result = compareTwoStr(str[tail], str[head]);
-    if (!result) return "";
-    str[head] = result;
-    tail++;
+  function fn(a) {
+    return a !== undefined;
   }
-  //   console.log(result);
-  return result;
+  function filterInPlace(array, fn) {
+    let head = 0,
+      tail = 0;
+    while (head < array.length) {
+      if (fn(array[head])) {
+        array[tail] = array[head];
+        tail++;
+      }
+      head++;
+    }
+    console.log(tail, head);
+    array.length = tail;
+  }
+  filterInPlace(nums, fn);
 };
+
+removeDuplicates([3, 2, 2, 2, 3], 3);
+//                t h
