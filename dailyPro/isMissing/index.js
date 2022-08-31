@@ -21,7 +21,6 @@
 // }
 var isMissing = function (nums) {
   let setData = new Set(nums);
-  // console.log(setData.size)
   let count = 0;
   for (let i = 1; i <= setData.size; i++) {
     count++;
