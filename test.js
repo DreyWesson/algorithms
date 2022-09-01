@@ -1,39 +1,12 @@
-/**
- * @param {string} s
- * @return {string}
- */
-function palindrome(str) {
-  if (str.length === 0) return true;
-  if (str.charAt(0) !== str.charAt(str.length - 1)) return false;
-  return palindrome(str.substr(1, str.length - 2));
-}
-
-function combiner(s) {
-  const memo = {};
-  let tmp = "";
-  let count = 0;
-
-  for (let i = 0; i < s.length; i++) {
-    tmp += s[i];
-    memo[tmp] = true;
-    memo[s.substring(i)] = true;
-    memo[tmp.substring(1)] = true;
+const pivotIndex = (nums) => {
+  const total = nums.reduce((acc, cur) => cur + acc, 0);
+  let left = 0;
+  for (let i = 0; i < nums.length; i++) {
+    const currentVal = nums[i];
+    const right = total - left - currentVal;
+    if (right === left) return i;
+    left += currentVal;
   }
-  return memo;
-}
-
-var longestPalindrome = function (s) {
-  let tmp = "";
-
-  for (let i = 0; i < s.length; i++) {
-    for (let j = s.length - 1; j >= i; j--) {
-      // console.log(s[j])
-      tmp = s[j] + tmp;
-    }
-    console.log(tmp, palindrome(tmp));
-    tmp = "";
-  }
-  // return tmp;
+  return -1;
 };
-longestPalindrome("abcdbbfcba");
-// palindrome("bab")
+pivotIndex([-1, -1, -1, -1, -1, 0]);
