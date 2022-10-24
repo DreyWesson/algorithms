@@ -1,17 +1,19 @@
 function deepClone(a) {
-  if (typeof a !== "object" || a === null) return a;
-  const structure = Array.isArray(a) ? [] : {};
-  for (const key in a) structure[key] = deepClone(a[key]);
-
-  return structure;
+    if (typeof a !== "object" || a === null) return a;
+    const structure = Array.isArray(a) ? [] : {};
+    for (const key in a) structure[key] = deepClone(a[key]);
+    return structure;
 }
+
 const obj = {
-  name: "john",
-  age: 92,
-  greatGrandParent: {
-    grandparent: { parent: { children: ["tope", "shayo"] } },
-  },
+    name: "john",
+    age: 92,
+    greatGrandParent: {
+        grandparent: { parent: { children: ["tope", "shayo"] } },
+    },
 };
-console.log(deepClone(obj));
+
+deepClone(obj);
 const obj2 = { ...obj };
-console.log(deepClone(obj) === obj);
+const obj3 = obj;
+console.log(obj3.greatGrandParent.grandparent.parent);
