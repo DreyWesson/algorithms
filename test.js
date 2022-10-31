@@ -1,23 +1,29 @@
-/**
- * @param {string} s
- * @param {number} numRows
- * @return {string}
- */
-var convert = function (s, numRows) {
-    if (numRows === 1 || s.length < numRows) return s;
+function Calculator() {
+    this.calculate = (str) => {
+        const val = str.split(" ");
+        let ans = 0;
+        for (let index = 0; index < val.length; index++) {
+            const tail = index;
+            const mid = index + 1;
+            const head = index + 2;
 
-    let rows = new Array(numRows).fill(""),
-        converted = "",
-        reverse = false,
-        count = 0;
+            let el = +val[tail];
+            let el2 = +val[head];
 
-    for (let i = 0; i < s.length; i++) {
-        rows[count] += s[i];
-        reverse ? count-- : count++;
-        (count === numRows - 1 || count === 0) && (reverse = !reverse);
-    }
-    return rows.join("");
-};
+            if (val[mid] === "+") {
+                ans += el + el2;
+            } else if (val[mid] === "-") {
+                ans += el - el2;
+            } else if (val[mid] === "*") {
+                ans += el * el2;
+            } else if (val[mid] === "/") {
+                ans += el / el2;
+            }
+        }
+        console.log(ans);
+        return ans;
+    };
+}
 
-// convert("PAYPALISHIRING", 3); //"PAHN || APLSIIG || YIR"
-convert("PAYPALISHIRING", 4); //"PIN || ALSIG || YAHR || PI"
+const calc = new Calculator();
+console.log(calc.calculate("38 + 7"));
