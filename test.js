@@ -1,23 +1,4 @@
-let list = {
-    value: 1,
-    next: {
-        value: 2,
-        next: {
-            value: 3,
-            next: {
-                value: 14,
-                next: null,
-            },
-        },
-    },
-};
-
-function sumVal(list) {
-    let value = 0;
-    for (const subList of Object.values(list)) {
-        !isNaN(subList) ? (value += subList) : (value += sumVal(subList));
-    }
-    return value;
+function staircase(n) {
+    for (let i = 0; i <= n; i++) console.log(" ".repeat(n - i) + "#".repeat(i));
 }
-
-console.log(sumVal(list));
+staircase(5);
