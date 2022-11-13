@@ -1,5 +1,4 @@
 let company = {
-    // the same object, compressed for brevity
     sales: [
         { name: "John", salary: 1000 },
         { name: "Alice", salary: 1600 },
@@ -26,4 +25,4 @@ function sumSalaries(department) {
     }
 }
 
-alert(sumSalaries(company));
+console.log(sumSalaries(company));
