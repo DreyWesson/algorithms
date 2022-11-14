@@ -1,16 +1,19 @@
-// https://www.hackerrank.com/challenges/apple-and-orange/problem?isFullScreen=true&h_r=next-challenge&h_v=zen
-function countApplesAndOranges(s, t, a, b, apples, oranges) {
-    // Write your code here
-    let i = 0;
-    let appleCounter = 0;
-    let orangeCounter = 0;
-    while (apples[i] || oranges[i]) {
-        const apple = apples[i] + a;
-        const orange = oranges[i] + b;
-        if (apple && apple >= s && apple <= t) appleCounter++;
-        if (orange && orange >= s && orange <= t) orangeCounter++;
-        i++;
-    }
-    console.log(`${appleCounter}\n${orangeCounter}`);
+function sym(...args) {
+    return [...args.reduce(reducer, new Set())];
 }
-countApplesAndOranges(7, 10, 4, 12, [2, 3, -4], [3, -2, -4]);
+
+function reducer(prev, curr) {
+    for (let val of new Set(curr))
+        prev.has(val) ? prev.delete(val) : prev.add(val);
+    return prev;
+}
+console.log(
+    sym(
+        [3, 3, 3, 2, 5],
+        [2, 1, 5, 7],
+        [3, 4, 6, 6],
+        [1, 2, 3],
+        [5, 3, 9, 8],
+        [1]
+    )
+);
