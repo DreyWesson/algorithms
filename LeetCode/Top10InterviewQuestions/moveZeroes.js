@@ -1,4 +1,5 @@
 /**
+ * https://leetcode.com/explore/interview/card/top-interview-questions-easy/92/array/567/
  * @param {number[]} nums
  * @return {void} Do not return anything, modify nums in-place instead.
  */
@@ -13,4 +14,3 @@ var moveZeroes = function (nums) {
         nums[i] = 0;
     }
 };
-moveZeroes([0, 0, 1]);
