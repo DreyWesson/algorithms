@@ -1,24 +1,15 @@
 function updateInventory(arr1, arr2) {
     const memo = {};
     function addToMemo(arr) {
-        let len = arr.length;
-        for (let i = 0; i < len; i++) {
-            if (memo[arr[i][1]]) {
-                memo[arr[i][1]] += arr[i][0];
-            } else {
-                memo[arr[i][1]] = arr[i][0];
-            }
-        }
+        for (let i = 0; i < arr.length; i++)
+            memo[arr[i][1]]
+                ? (memo[arr[i][1]] += arr[i][0])
+                : (memo[arr[i][1]] = arr[i][0]);
     }
-    addToMemo(arr1);
-    addToMemo(arr2);
-
+    for (let i = 0; i < arguments.length; i++) addToMemo(arguments[i]);
     const newShit = Object.keys(memo).sort((a, b) => a.localeCompare(b));
-
-    for (let i = 0; i < newShit.length; i++) {
-        const element = newShit[i];
-        arr1[i] = [memo[element], element];
-    }
+    for (let i = 0; i < newShit.length; i++)
+        arr1[i] = [memo[newShit[i]], newShit[i]];
     return arr1;
 }
 
