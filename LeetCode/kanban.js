@@ -6,7 +6,9 @@ function Kanban(stages, name = "") {
         const index = this.findItem(item, currentStage);
         if (typeof index !== "number") return this;
         let val = this.stageItems(currentStage).splice(index, 1)[0];
-        const newStage = moveType === "next" ? val.stage + 1 : val.stage - 1;
+        console.log(">>>", val);
+        const newStage = val.stage + moveType === "next" ? +1 : -1;
+        console.log(">>>", val);
         val = { ...val, stage: newStage };
         moveType === "next"
             ? val.stage <= stages.length - 1 &&
