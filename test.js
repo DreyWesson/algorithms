@@ -1,33 +1,36 @@
-const tree = {
-    children: [
-        {
-            node: "node_modules",
-            children: [
-                { node: "Joi" },
-                {
-                    node: "index.js",
-                    children: [
-                        { node: "nested" },
-                        {
-                            node: "nested",
-                        },
-                    ],
-                },
-            ],
-        },
-        { name: "package.json" },
-        { name: "index.html" },
-    ],
-};
+class LRUCache {
+    constructor(n) {
+        this.csize = n;
+        this.dq = [];
+        this.ma = new Map();
+    }
 
-function printChildren(tree, nest = -1) {
-    Object.values(tree).forEach((val) => {
-        if (Array.isArray(val)) {
-            nest += 1;
-            for (let i = 0; i < val.length; i++) printChildren(val[i], nest);
+    refer(x) {
+        if (!this.ma.has(x)) {
+            if (this.dq.length === this.csize) {
+                const last = this.dq[this.dq.length - 1];
+                this.dq.pop();
+                this.ma.delete(last);
+            }
         } else {
-            console.log("".padEnd(nest * 2, " ") + val);
+            this.dq.splice(this.dq.indexOf(x), 1);
         }
-    });
+
+        this.dq.unshift(x);
+        this.ma.set(x, 0);
+    }
+
+    display() {
+        console.log(this.dq);
+    }
 }
-printChildren(tree);
+
+const cache = new LRUCache(4);
+
+cache.refer(1);
+cache.refer(2);
+cache.refer(3);
+cache.refer(1);
+cache.refer(4);
+cache.refer(5);
+cache.display();
